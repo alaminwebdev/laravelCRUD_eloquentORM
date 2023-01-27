@@ -88,11 +88,13 @@
                                             <td>{{ $student->name }}</td>
                                             <td>{{ $student->email }}</td>
                                             <td>{{ $student->created_at->format('d-m-Y , h-i-a') }}</td>
-                                            <td>{{ $student->updated_at }}</td>
+                                            <td>{{ $student->updated_at->format('d-m-Y , h-i-a') }}</td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
-                                                    <a href="#" class="btn btn-success">Edit</a>
-                                                    <a href="#" class="btn btn-danger">Delete</a>
+                                                    <a href="{{ route('edit', $student->id) }}" class="btn btn-success">Edit</a>
+                                                    <a href="{{ route('delete', $student->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure to delete this student ?')">
+                                                        Delete
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
