@@ -27,7 +27,7 @@
                             </ul>
                         </div>
                     @endif --}}
-                    <form action="{{ route('update', $student->id) }}" method="POST">
+                    <form action="{{ route('update', $student->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="mb-3">
@@ -43,6 +43,20 @@
                                 <label for="email" class="form-label">Email address</label>
                                 <input type="text" class="form-control" name="email" value="{{ $student->email }}">
                                 @error('email')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Your prevoius image</label>
+                                <img src="{{ asset('uploads/' . $student->image) }}" alt="student image"
+                                    class="img-fluid rounded mx-auto " style="width: 80px">
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Upload your new image</label>
+                                <input class="form-control" type="file" name="image">
+                                @error('image')
                                     <span class="text-danger">
                                         {{ $message }}
                                     </span>

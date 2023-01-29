@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div class="container pt-5">
+    <div class="container py-5">
         <div class="row">
             @if (session()->has('success'))
                 <div class="col-12">
@@ -34,7 +34,7 @@
                             </ul>
                         </div>
                     @endif --}}
-                    <form action="{{ route('store') }}" method="POST">
+                    <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="mb-3">
@@ -55,6 +55,15 @@
                                     </span>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Upload your image</label>
+                                <input class="form-control" type="file" name="image" >
+                                @error('image')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
                         <div class="card-footer text-center">
                             <button type="submit" class="btn btn-success">Submit</button>
@@ -69,14 +78,14 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover table-responsive">
+                            <table class="table table-striped table-hover table-responsive align-middle">
                                 <thead class="text-center">
                                     <tr>
                                         <th scope="col">#</th>
+                                        <th scope="col">Image</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Created at</th>
-                                        <th scope="col">Updated at</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -85,14 +94,20 @@
                                         <tr>
                                             <th scope="row">{{ $key + 1 }}</th>
                                             {{-- <th scope="row">{{ $loop->iteration }}</th> --}}
+                                            <td>
+                                                <img src="{{ asset('uploads/'.$student->image) }}" alt="student image" class="img-fluid rounded mx-auto " style="width: 80px">
+                                            </td>
                                             <td>{{ $student->name }}</td>
                                             <td>{{ $student->email }}</td>
-                                            <td>{{ $student->created_at->format('d-m-Y , h-i-a') }}</td>
-                                            <td>{{ $student->updated_at->format('d-m-Y , h-i-a') }}</td>
+                                            
+                                            <td>{{ $student->created_at->format('d-m-Y') }}</td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
-                                                    <a href="{{ route('edit', $student->id) }}" class="btn btn-success">Edit</a>
-                                                    <a href="{{ route('delete', $student->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure to delete this student ?')">
+                                                    <a href="{{ route('edit', $student->id) }}"
+                                                        class="btn btn-success">Edit</a>
+                                                    <a href="{{ route('delete', $student->id) }}"
+                                                        class="btn btn-danger"
+                                                        onclick="return confirm('Are you sure to delete this student ?')">
                                                         Delete
                                                     </a>
                                                 </div>
