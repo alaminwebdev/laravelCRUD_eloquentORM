@@ -69,7 +69,6 @@ class StudentController extends Controller
 
             // if validation is complete then delete the old photo from local server
             $image_path = public_path('uploads/'.$student->image);
-
             if(file_exists($image_path) && !empty($student->image)){
                 unlink($image_path);
             };
@@ -93,14 +92,31 @@ class StudentController extends Controller
         return redirect()->route('home')->with('success', 'Student updated successfully !');
     }
 
-    public function delete($id){
+    public function softdelete($id){
         $data = Student::find($id);
+        //dd($data);
+        $data->delete();
+        return redirect()->back()->with('success', 'Student deleted temporarily');
+    }
+
+    public function forceDelete($id){
+        $data = Student::onlyTrashed()->find($id);
+        //dd($data);
 
         if(file_exists(public_path('uploads/'.$data->image)) && !empty($data->image)){
             unlink(public_path('uploads/'.$data->image));
         }
         //dd($data);
-        $data->delete();
-        return redirect()->back()->with('success', 'Student deleted successfully');
+        $data->forceDelete();
+        return redirect()->back()->with('success', 'Student deleted permanently');
+    }
+    public function trash(){
+        $trash_data = Student::onlyTrashed()->latest()->get();
+        //dd($trash_data);
+        return view('trash', compact('trash_data'));
+    }
+    public function restore($id){
+        Student::onlyTrashed()->where('id', $id)->restore();
+        return redirect()->route('home')->with('success', 'Student restored sucessfully !');
     }
 }

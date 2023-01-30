@@ -10,9 +10,9 @@
 </head>
 
 <body>
-    <div class="container pt-5">
+    <div class="container">
         <div class="row">
-            <div class="col-lg-6 m-auto">
+            <div class="col-lg-6 m-auto col-12 py-5">
                 <div class="card">
                     <div class="card-header">
                         Edit Student
@@ -64,6 +64,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-center">
+                            <a href="{{ route('home') }}" class="btn btn-info me-2">Home</a>
                             <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </form>

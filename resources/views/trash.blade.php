@@ -19,62 +19,10 @@
                     </div>
                 </div>
             @endif
-            <div class="col-lg-4 col-12 pb-5">
+            <div class="col-lg-8 col-12 pb-5 mx-auto ">
                 <div class="card">
                     <div class="card-header">
-                        Add Student
-                    </div>
-                    {{-- Show all field error in one section --}}
-                    {{-- @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif --}}
-                    <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Your name</label>
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}">
-                                @error('name')
-                                    <span class="text-danger">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email address</label>
-                                <input type="text" class="form-control" name="email" value="{{ old('email') }}">
-                                @error('email')
-                                    <span class="text-danger">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Upload your image</label>
-                                <input class="form-control" type="file" name="image" >
-                                @error('image')
-                                    <span class="text-danger">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="card-footer text-center">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-lg-8 col-12 pb-5 ">
-                <div class="card">
-                    <div class="card-header">
-                        Student List
+                        Trash Student List
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -90,22 +38,23 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    @foreach ($all_students as $key => $student)
+                                    @foreach ($trash_data as $key => $student)
                                         <tr>
                                             <th scope="row">{{ $key + 1 }}</th>
                                             {{-- <th scope="row">{{ $loop->iteration }}</th> --}}
                                             <td>
-                                                <img src="{{ asset('uploads/'.$student->image) }}" alt="student image" class="img-fluid rounded mx-auto " style="width: 80px">
+                                                <img src="{{ asset('uploads/' . $student->image) }}" alt="student image"
+                                                    class="img-fluid rounded mx-auto " style="width: 80px">
                                             </td>
                                             <td>{{ $student->name }}</td>
                                             <td>{{ $student->email }}</td>
-                                            
+
                                             <td>{{ $student->created_at->format('d-m-Y') }}</td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
-                                                    <a href="{{ route('edit', $student->id) }}"
-                                                        class="btn btn-success">Edit</a>
-                                                    <a href="{{ route('soft.delete', $student->id) }}"
+                                                    <a href="{{ route('restore', $student->id) }}"
+                                                        class="btn btn-success">Restore</a>
+                                                    <a href="{{ route('force.delete', $student->id) }}"
                                                         class="btn btn-danger"
                                                         onclick="return confirm('Are you sure to delete this student ?')">
                                                         Delete
